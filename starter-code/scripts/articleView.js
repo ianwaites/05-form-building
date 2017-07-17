@@ -1,6 +1,7 @@
 'use strict';
 
 var articleView = {};
+var x;
 
 articleView.populateFilters = function() {
   $('article').each(function() {
@@ -90,30 +91,56 @@ articleView.initNewArticlePage = function() {
   });
 
   // TODO: Add an event handler to update the preview and the article-export field if any inputs change.
-  articleView.showPreview = function() {
-    event.preventDefault();
-    $('#article-export').empty();
-    // do stuff
-    // retrieve the data from the form
-    articleView.newEntry.title = $('#entryTitle').val();
-    articleView.newEntry.text = $('#entryText').val();
-    articleView.newEntry.author = $('#entryAuthor').val();
-    articleView.newEntry.authorUrl = $('#entryAuthorUrl').val();
-    articleView.newEntry.category = $('#entryCategory').val();
-    articleView.newEntry.date = (new Date()).toDateString();
-    articleView.newEntry.templateAndDomify('#article-export');
-  };
+  $('#entryFrom').on('change', function() {
+    x = new Article({
+      title : $('#entryTitle').val(),
+      body : $('#entryText').val(),
+      author : $('#entryAuthor').val(),
+      authorUrl : $('#entryAuthorUrl').val(),
+      category : $('#entryCategory').val(),
+      publishedOn : (new Date()).toDateString(),
+    });
+  })
 
+  // function() {
+  //   articleView.newEntry.title = $('#entryTitle').val(),
+  //   articleView.newEntry.body = $('#entryText').val(),
+  //   articleView.newEntry.author = $('#entryAuthor').val(),
+  //   articleView.newEntry.authorUrl = $('#entryAuthorUrl').val(),
+  //   articleView.newEntry.category = $('#entryCategory').val(),
+  //   articleView.newEntry.publishedOn = (new Date()).toDateString()
+  // });
+
+  // articleView.showPreview = function() {
+  //   event.preventDefault();
+  //   $('#article-export').empty();
+  //   var x = new Article({
+      // title : $('#entryTitle').val(),
+      // body : $('#entryText').val(),
+      // author : $('#entryAuthor').val(),
+      // authorUrl : $('#entryAuthorUrl').val(),
+      // category : $('#entryCategory').val(),
+      // publishedOn : (new Date()).toDateString(),
+  //   });
+  //   x.templateAndDomify('#article-export')
+  // };
+
+};
+
+articleView.preview = function(event) {
+  event.preventDefault();
+  $('#article-export').empty();
+  $('#articles').html(x.toHtml());
 };
 
 // this is the function that generates the preview and shows the export field
 articleView.create = function() {
   // TODO: Set up a var to hold the new article we are creating.
   // Clear out the #articles element, so we can put in the updated preview
-
-
+  $('article').empty();
   // TODO: Instantiate an article based on what's in the form fields:
 
+  articles.push(x);
 
   // TODO: Use our interface to the Handblebars template to put the article preview into the DOM:
 
