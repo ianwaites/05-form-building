@@ -75,14 +75,34 @@ articleView.setTeasers = function() {
 
 articleView.initNewArticlePage = function() {
  // TODO: Make the tabs work. Right now, you're seeing all the tab content (items with a class of tab-content) on the page at once. The section with the id of "write" should show when the "write" tab is clicked; it is also the default and should be shown on page load. The section with the id of "articles" should show when the "preview" tab is clicked.
+  $('.main-nav').on('click', '.tab', function() {
+    $('.tab-content').hide();
+    $('#' + $(this).data('content')).fadeIn();
+  });
+
+  $('.main-nav .tab:first').click();
 
   // TODO: Hide the article-export section on page load
+  $('#article-export').hide();
 
   $('#article-json').on('focus', function(){
     this.select();
   });
 
   // TODO: Add an event handler to update the preview and the article-export field if any inputs change.
+  articleView.showPreview = function() {
+    event.preventDefault();
+    $('#article-export').empty();
+    // do stuff
+    // retrieve the data from the form
+    articleView.newEntry.title = $('#entryTitle').val();
+    articleView.newEntry.text = $('#entryText').val();
+    articleView.newEntry.author = $('#entryAuthor').val();
+    articleView.newEntry.authorUrl = $('#entryAuthorUrl').val();
+    articleView.newEntry.category = $('#entryCategory').val();
+    articleView.newEntry.date = (new Date()).toDateString();
+    articleView.newEntry.templateAndDomify('#article-export');
+  };
 
 };
 
@@ -110,4 +130,6 @@ articleView.initIndexPage = function() {
   articleView.handleAuthorFilter();
   articleView.handleMainNav();
   articleView.setTeasers();
+
+
 };
